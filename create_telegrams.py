@@ -2,6 +2,7 @@ from mega import Mega
 import os
 from loguru import logger
 import rarfile
+import zipfile
 import shutil
 import time
 from dotenv import load_dotenv, find_dotenv
@@ -13,6 +14,7 @@ BASE_PATH = os.getenv('BASE_PATH')
 TELEGRAM_EXE_PATH = os.getenv('TELEGRAM_EXE_PATH')
 MEGA_LINKS_PATH = os.getenv('MEGA_LINKS_PATH')
 ALL_PATHES_FILENAME = os.getenv('ALL_PATHES_FILENAME')
+ARCHIVE_TYPE = os.getenv('ARCHIVE_TYPE')
 
 
 def download_zip_from_mega(url, path):
@@ -39,10 +41,15 @@ def set_counter(path):
     return 0
 
 
-def unpack_rar(rar_path, destination):
-    with rarfile.RarFile(rar_path, 'r') as rar_ref:
-        rar_ref.extractall(destination)
-        files = rar_ref.namelist()
+def unpack_rar_zip(archive_path, destination):
+    if ARCHIVE_TYPE == '.rar':
+        with rarfile.RarFile(archive_path, 'r') as rar_ref:
+            rar_ref.extractall(destination)
+            files = rar_ref.namelist()
+    elif ARCHIVE_TYPE == '.zip':
+        with zipfile.ZipFile(archive_path, 'r') as rar_ref:
+            rar_ref.extractall(destination)
+            files = rar_ref.namelist()
     root_foolder = files[0][:files[0].index('/')]
     return os.path.join(destination, root_foolder)
 
@@ -70,10 +77,11 @@ def start_creating():
 
         counter = set_counter(BASE_PATH)
         path = create_custom_dir(BASE_PATH, counter)
+        archive_name = 'tdata' + ARCHIVE_TYPE
         file_path = os.path.join(path, 'tdata.rar')
 
         rar_path = download_zip_from_mega(mega_link, file_path)
-        tg_folder_path = unpack_rar(rar_path, path)
+        tg_folder_path = unpack_rar_zip(rar_path, path)
         tg_ready_path = copy_tg_exe(TELEGRAM_EXE_PATH, tg_folder_path)
 
         save_tg_ready_path(tg_ready_path, BASE_PATH)

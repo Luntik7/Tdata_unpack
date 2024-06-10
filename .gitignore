@@ -2,3 +2,5 @@ venv/
 .vscode/
 __pycache__/
 .idea/
+all_telegrams/
+Telegram.exe

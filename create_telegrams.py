@@ -16,6 +16,7 @@ MEGA_LINKS_PATH = os.getenv('MEGA_LINKS_PATH')
 ALL_PATHES_FILENAME = os.getenv('ALL_PATHES_FILENAME')
 ARCHIVE_TYPE = os.getenv('ARCHIVE_TYPE')
 
+rarfile.UNRAR_TOOL = "C:\\Program Files\\WinRAR\\UnRAR.exe"
 
 def download_zip_from_mega(url, path):
     mega = Mega()

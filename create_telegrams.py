@@ -58,7 +58,7 @@ def unpack_rar_zip(archive_path, destination):
 
 def copy_tg_exe(tg_exe_path ,tg_folder_path):
     shutil.copy(tg_exe_path, tg_folder_path)
-    return os.path.join(tg_folder_path, tg_exe_path)
+    return os.path.join(tg_folder_path, 'Telegram.exe')
 
 
 def save_tg_ready_path(telegram_path, path):

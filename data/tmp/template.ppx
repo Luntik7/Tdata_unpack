@@ -26,9 +26,5 @@
 			<Targets>localhost; 127.0.0.1; %ComputerName%; ::1</Targets>
 			<Name>Localhost</Name>
 		</Rule>
-		<Rule enabled="true">
-			<Action type="Direct" />
-			<Name>Default</Name>
-		</Rule>
 	</RuleList>
 </ProxifierProfile>

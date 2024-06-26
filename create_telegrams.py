@@ -52,8 +52,13 @@ def unpack_rar_zip(archive_path, destination):
         with zipfile.ZipFile(archive_path, 'r') as rar_ref:
             rar_ref.extractall(destination)
             files = rar_ref.namelist()
-    root_foolder = files[0][:files[0].index('/')]
-    return os.path.join(destination, root_foolder)
+
+    for i in files:
+        if 'tdata' in i:
+            root_foolder = i[:i.index('tdata')]
+            return os.path.join(destination, root_foolder)
+        
+    return destination
 
 
 def copy_tg_exe(tg_exe_path ,tg_folder_path):
@@ -80,7 +85,7 @@ def start_creating():
         counter = set_counter(BASE_PATH)
         path = create_custom_dir(BASE_PATH, counter)
         archive_name = 'tdata' + ARCHIVE_TYPE
-        file_path = os.path.join(path, 'tdata.rar')
+        file_path = os.path.join(path, archive_name)
 
         rar_path = download_zip_from_mega(mega_link, file_path)
         tg_folder_path = unpack_rar_zip(rar_path, path)
@@ -89,3 +94,5 @@ def start_creating():
         save_tg_ready_path(tg_ready_path, BASE_PATH)
         logger.info(f"Account {counter} creacted")
         time.sleep(1)
+
+    input()
